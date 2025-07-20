@@ -1,4 +1,3 @@
-import { isValidObjectId } from "mongoose";
 import { CustomPizzaModel } from "../models/CustomPizzaModel.js";
 import { OrderModel } from "../models/OrderModel.js";
 import { PizzaModel } from "../models/PizzaModel.js";
@@ -74,62 +73,74 @@ export const myCustomPizzas = async (req, res) => {
 
 }
 export const addOrder = async (req, res) => {
-  try {
-    const { userId,role } = req.userId;
-    const { pizzaType, totalPrice, pizzaRef } = req.body;
+    try {
+        const { userId, role } = req.userId;
+        const { pizzaType, totalPrice, pizzaRef } = req.body;
 
-    // create the order
-    const order = await OrderModel.create({
-      userId,
-      pizzaRef,
-      pizzaModelType: pizzaType === "custom"? "custompizzas" : "allpizzas",
-      pizzaType,
-      totalPrice,
-    });
+        const order = await OrderModel.create({
+            userId,
+            pizzaRef,
+            pizzaModelType: pizzaType === "custom" ? "custompizzas" : "allpizzas",
+            pizzaType,
+            totalPrice,
+        });
 
-    // fetch the pizza doc (standard and custom pizzas now in PizzaModel)
-    const pizzaDoc = await PizzaModel.findById(pizzaRef);
+        const pizzaDoc = await PizzaModel.findById(pizzaRef);
 
-    if (!pizzaDoc) {
-      return res.status(404).json({ message: "Pizza not found" });
-    }
+        if (!pizzaDoc) {
+            return res.status(404).json({ message: "Pizza not found" });
+        }
 
     const { base, sauce, cheese, veggies } = pizzaDoc;
 
-    // update inventory BEFORE sending response
-    // decrement inventory for base, sauce, cheese, and each veggie
-    const inventoryUpdates = [
-      InventoryModel.findOneAndUpdate(
-        { name: base, category: "Base" },
-        { $inc: { quantity: -1 } }
-      ),
-      InventoryModel.findOneAndUpdate(
-        { name: sauce, category: "Sauce" },
-        { $inc: { quantity: -1 } }
-      ),
-      InventoryModel.findOneAndUpdate(
-        { name: cheese, category: "Cheese" },
-        { $inc: { quantity: -1 } }
-      ),
-      // handle veggies array
-      ...veggies.map(v =>
-        InventoryModel.findOneAndUpdate(
-          { name: v, category: "Veggie" },
-          { $inc: { quantity: -1 } }
-        )
-      ),
+    // check inventory availability before placing order
+    const ingredientsToCheck = [
+      { name: base,   category: "Base" },
+      { name: sauce,  category: "Sauce" },
+      { name: cheese, category: "Cheese" },
+      ...veggies.map(v => ({ name: v, category: "Veggie" }))
     ];
-    await Promise.all(inventoryUpdates);
+    for (const item of ingredientsToCheck) {
+      const inv = await InventoryModel.findOne({ name: item.name, category: item.category });
+      if (!inv || inv.quantity <= 0) {
+        return res.status(400).json({ message: `${item.name} is out of stock` });
+      }
+    }
 
-    // now return success
-    return res.json({
-      message: "Order placed",
-      order
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong while placing the order" });
-  }
+
+        // decrement inventory for base, sauce, cheese, and each veggie
+        const inventoryUpdates = [
+            InventoryModel.findOneAndUpdate(
+                { name: base, category: "Base" },
+                { $inc: { quantity: -1 } }
+            ),
+            InventoryModel.findOneAndUpdate(
+                { name: sauce, category: "Sauce" },
+                { $inc: { quantity: -1 } }
+            ),
+            InventoryModel.findOneAndUpdate(
+                { name: cheese, category: "Cheese" },
+                { $inc: { quantity: -1 } }
+            ),
+            // handle veggies array
+            ...veggies.map(v =>
+                InventoryModel.findOneAndUpdate(
+                    { name: v, category: "Veggie" },
+                    { $inc: { quantity: -1 } }
+                )
+            ),
+        ];
+        await Promise.all(inventoryUpdates);
+
+
+        return res.json({
+            message: "Order placed",
+            order
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Something went wrong while placing the order" });
+    }
 };
 
 

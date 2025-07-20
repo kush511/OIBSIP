@@ -192,3 +192,29 @@ export const deletePizzaFromPublic = async (req, res) => {
     }
 
 }
+
+export const checkInventoryThreshold =async (req,res)=>{
+try {
+    const allItems= await InventoryModel.find()
+
+const lowStockItems = allItems.filter(item => item.threshold > item.quantity)
+console.log(lowStockItems);
+
+if(lowStockItems.length === 0){
+    res.json({
+        message:"All items are above threshold"
+    })
+}
+else {
+    res.json({
+        message:"This are less than threshold ",
+        itemslowStockItems
+    })
+}
+} catch (error) {
+    res.status(500).json({
+        message:"issue checking",
+        error
+    })
+}
+}
