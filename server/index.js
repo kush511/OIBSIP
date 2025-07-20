@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import AuthRouter from "./routes/userRoute.js"
 import allPizzaRouter from "./routes/allPizzaRoute.js"
 import adminRouter from "./routes/adminRoutes.js"
+import  paymentRouter  from "./routes/paymentRoutes.js"
 
 dotenv.config()
 const app = express()
@@ -16,6 +17,7 @@ app.use(cors())
 app.use("/api/auth",AuthRouter)
 app.use("/pizza",allPizzaRouter)
 app.use("/admin",adminRouter)
+app.use("/api/payment",paymentRouter)
 
 mongoose.connect(process.env.MONGODB_URI)
 .then(()=> console.log("db connected"))

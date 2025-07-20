@@ -85,57 +85,41 @@ export const addOrder = async (req, res) => {
             totalPrice,
         });
 
-        const pizzaDoc = await PizzaModel.findById(pizzaRef);
+        // fetch from appropriate model based on pizza type
+        let pizzaDoc;
+        if (pizzaType === "custom") {
+            pizzaDoc = await CustomPizzaModel.findById(pizzaRef);
+        } else {
+            pizzaDoc = await PizzaModel.findById(pizzaRef);
+        }
 
         if (!pizzaDoc) {
             return res.status(404).json({ message: "Pizza not found" });
         }
 
-    const { base, sauce, cheese, veggies } = pizzaDoc;
+        const { base, sauce, cheese, veggies } = pizzaDoc;
 
-    // check inventory availability before placing order
-    const ingredientsToCheck = [
-      { name: base,   category: "Base" },
-      { name: sauce,  category: "Sauce" },
-      { name: cheese, category: "Cheese" },
-      ...veggies.map(v => ({ name: v, category: "Veggie" }))
-    ];
-    for (const item of ingredientsToCheck) {
-      const inv = await InventoryModel.findOne({ name: item.name, category: item.category });
-      if (!inv || inv.quantity <= 0) {
-        return res.status(400).json({ message: `${item.name} is out of stock` });
-      }
-    }
-
-
-        // decrement inventory for base, sauce, cheese, and each veggie
-        const inventoryUpdates = [
-            InventoryModel.findOneAndUpdate(
-                { name: base, category: "Base" },
-                { $inc: { quantity: -1 } }
-            ),
-            InventoryModel.findOneAndUpdate(
-                { name: sauce, category: "Sauce" },
-                { $inc: { quantity: -1 } }
-            ),
-            InventoryModel.findOneAndUpdate(
-                { name: cheese, category: "Cheese" },
-                { $inc: { quantity: -1 } }
-            ),
-            // handle veggies array
-            ...veggies.map(v =>
-                InventoryModel.findOneAndUpdate(
-                    { name: v, category: "Veggie" },
-                    { $inc: { quantity: -1 } }
-                )
-            ),
+        // check inventory availability before placing order
+        const ingredientsToCheck = [
+            { name: base, category: "Base" },
+            { name: sauce, category: "Sauce" },
+            { name: cheese, category: "Cheese" },
+            ...veggies.map(v => ({ name: v, category: "Veggie" }))
         ];
-        await Promise.all(inventoryUpdates);
-
+        for (const item of ingredientsToCheck) {
+            const inv = await InventoryModel.findOne({ name: item.name, category: item.category });
+            if (!inv || inv.quantity <= 0) {
+                return res.status(400).json({ message: `${item.name} is out of stock` });
+            }
+        }
 
         return res.json({
-            message: "Order placed",
-            order
+            message: "Order created. Proceed to payment.",
+            order: {
+                id: order._id,
+                totalPrice: order.totalPrice,
+                status: order.status
+            }
         });
     } catch (error) {
         console.error(error);

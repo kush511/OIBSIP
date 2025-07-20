@@ -208,7 +208,7 @@ if(lowStockItems.length === 0){
 else {
     res.json({
         message:"This are less than threshold ",
-        itemslowStockItems
+        lowStockItems
     })
 }
 } catch (error) {
