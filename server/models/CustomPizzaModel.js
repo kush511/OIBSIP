@@ -7,7 +7,7 @@ const CustomPizzaSchema = new Schema({
     base: { type: String, required: true },
     sauce: { type: String, required: true },
     cheese: { type: String, required: true },
-    veggies: { type: String },
+    veggies: [String],
 }, {
     timestamps: true
 })
