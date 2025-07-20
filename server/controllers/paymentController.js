@@ -76,3 +76,15 @@ export const processPayment = async (req, res) => {
         })
     }
 }
+
+export const getPaymentStatus = async (req,res)=>{
+    const {orderId} = req.params;
+
+    const order = await OrderModel.findById(orderId)
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    res.json({
+        paymentStatus:order.paymentStatus,
+        orderStatus:order.status
+    })
+}
