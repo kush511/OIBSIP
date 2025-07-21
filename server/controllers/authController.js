@@ -30,22 +30,29 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await UserModel.findOne({ email });
+    
+    // Check if user exists first
+    if (!user) {
+        return res.status(403).json({
+            message: "Invalid credentials"
+        });
+    }
 
-    const isMatching = await user.comparePassword(password)
+    const isMatching = await user.comparePassword(password);
 
-if (!isMatching) {
-   return res.status(403).json({
-        message:"Invalid credentials"
-    })
-}
+    if (!isMatching) {
+        return res.status(403).json({
+            message: "Invalid credentials"
+        });
+    }
 
-
-    const token = getToken({userId:user._id.toString(),role:user.role})
+    const token = getToken({userId: user._id.toString(), role: user.role});
 
     return res.json({
         token: token
-    })
+    });
 }
+
 
 
 
