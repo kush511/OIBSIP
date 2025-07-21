@@ -1,7 +1,7 @@
 
 import express from "express"
 import adminMiddleware from "../middlewares/adminMiddleware.js"
-import { addItem, addPizza, allOrders, changeStatus, checkInventoryThreshold, deletePizzaFromPublic, getInventory, manualUpdate, seeCustomPizzas, updatePizzaForPublic } from "../controllers/adminController.js"
+import { addItem, addPizza, allOrders, changeStatus, checkInventoryThreshold, deletePizzaFromPublic, getAdminDashboardStats, getInventory, manualUpdate, seeCustomPizzas, updatePizzaForPublic } from "../controllers/adminController.js"
 
  const adminRouter = express.Router()
 
@@ -15,5 +15,6 @@ adminRouter.put("/orders/:id/status",adminMiddleware,changeStatus)
 adminRouter.put("/pizza-update/:id/public",adminMiddleware,updatePizzaForPublic)
 adminRouter.delete("/pizza/delete/:id",adminMiddleware,deletePizzaFromPublic)
 adminRouter.get("/check-inventory",adminMiddleware,checkInventoryThreshold)
+adminRouter.get("/stats",adminMiddleware,getAdminDashboardStats)
 
 export default adminRouter

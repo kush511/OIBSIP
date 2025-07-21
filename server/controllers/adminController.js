@@ -2,6 +2,7 @@ import { CustomPizzaModel } from "../models/CustomPizzaModel.js"
 import { InventoryModel } from "../models/InventoryItemModel.js"
 import { OrderModel } from "../models/OrderModel.js"
 import { PizzaModel } from "../models/PizzaModel.js"
+import { getLowStockItems } from "../utils/getInventoryHelp.js"
 
 
 export const addPizza = async (req, res) => {
@@ -195,10 +196,7 @@ export const deletePizzaFromPublic = async (req, res) => {
 
 export const checkInventoryThreshold =async (req,res)=>{
 try {
-    const allItems= await InventoryModel.find()
-
-const lowStockItems = allItems.filter(item => item.threshold > item.quantity)
-console.log(lowStockItems);
+   const {lowStockItems} = await getLowStockItems()
 
 if(lowStockItems.length === 0){
     res.json({
@@ -217,4 +215,35 @@ else {
         error
     })
 }
+}
+
+export const getAdminDashboardStats = async (req, res) => {
+
+   try {
+     const totalOrders = await OrderModel.countDocuments()
+    const totalMenuPizzas = await PizzaModel.countDocuments()
+
+   const {lowStockItems,allItems} = await getLowStockItems()
+   
+
+//    additional stats 
+ const completedOrders = await OrderModel.countDocuments({ status: 'completed' });
+        const pendingOrders = await OrderModel.countDocuments({ status: 'pending' });
+const LowStockItemsCount = lowStockItems.length
+console.log(lowStockItems,LowStockItemsCount);
+
+        res.json({
+            totalOrders,
+            totalMenuPizzas,
+            totalInventoryItems: allItems.length,
+            lowStockItemsCount: LowStockItemsCount,
+            completedOrders,
+            pendingOrders,
+        });
+   } catch (error) {
+    return res.status(500).json({
+            message: 'Failed to fetch dashboard statistics'
+        });
+   }
+
 }

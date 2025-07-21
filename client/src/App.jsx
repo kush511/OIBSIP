@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/adminRoute';
+import OrderManagement from './pages/OrderManagement';
 
 
 function App() {
@@ -28,7 +29,12 @@ function App() {
             </AdminRoute>
 
           } />
+         <Route path="admin/order-manage" element={
+            <AdminRoute>
+              <OrderManagement />
+            </AdminRoute>
 
+          } />
           <Route path="/dashboard" element={
             <PrivateRoute>
               <Dashboard />

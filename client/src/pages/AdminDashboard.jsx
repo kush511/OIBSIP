@@ -82,7 +82,7 @@ const navigate = useNavigate()
 
         {/* Navigation Cards */}
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-          <div className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
+          <div onClick={() => navigate('/admin/order-manage')} className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
             <span className="text-5xl mb-3">📋</span>
             <span className='text-xl font-semibold text-gray-800 mb-2'>Order Management</span>
             <span className='text-gray-600 text-center'>View and manage customer orders</span>
