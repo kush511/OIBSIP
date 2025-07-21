@@ -18,6 +18,9 @@ export const registerUser = async (req, res) => {
         username,
         password
     })
+    res.json({
+      message:"Signup done"
+    })
 
     // const token = getToken({userId:user._id})
 

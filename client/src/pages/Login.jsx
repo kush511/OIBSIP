@@ -86,7 +86,7 @@ function Login() {
                     <div className='mt-6 text-center'>
                         <p className='text-gray-600'>
                             Don't have an account?
-                            <a href='#' className='text-orange-500 hover:text-orange-600 font-semibold transition-colors'>
+                            <a href='/register' className='text-orange-500 hover:text-orange-600 font-semibold transition-colors'>
                                 Sign up here
                             </a>
                         </p>
