@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -20,11 +21,21 @@ function Login() {
             const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { email, password });
             console.log('Login Success:', response.data);
 
+            const token = response.data.token;
+            localStorage.setItem('token', token);
 
-            localStorage.setItem('token', response.data.token);
+            // DECODE TOKEN TO GET ROLE
+            const decodedToken = jwtDecode(token);
+            console.log('Decoded token:', decodedToken);
 
-            // Redirect to dashboard
-            navigate('/dashboard');
+
+            // ROLE-BASED REDIRECT
+            if (decodedToken.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/dashboard');
+            }
+
 
         } catch (error) {
             console.log('Login failed:', error.response?.data?.message);
@@ -81,7 +92,7 @@ function Login() {
                         >
                             Sign In to Order
                         </button>
- 
+
                     </form>
                     <div className='mt-6 text-center'>
                         <p className='text-gray-600'>
