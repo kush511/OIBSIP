@@ -9,6 +9,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/adminRoute';
 import OrderManagement from './pages/OrderManagement';
 import Inventory from './pages/Inventory';
+import PizzaManagement from './pages/PizzaManagement';
 
 
 function App() {
@@ -40,6 +41,13 @@ function App() {
           <Route path="admin/Inventory" element={
             <AdminRoute>
               <Inventory />
+            </AdminRoute>
+
+          } />
+
+          <Route path="admin/public-pizza" element={
+            <AdminRoute>
+              <PizzaManagement/>
             </AdminRoute>
 
           } />

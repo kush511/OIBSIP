@@ -92,7 +92,9 @@ const navigate = useNavigate()
             <span className='text-xl font-semibold text-gray-800 mb-2'>Inventory</span>
             <span className='text-gray-600 text-center'>Manage ingredients and stock levels</span>
           </div>
-          <div className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
+
+          {/* Here we will add a onclick and navigate to admin/public-pizza page, we will create a new page  */}
+          <div onClick={() => navigate('/admin/public-pizza')}  className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
             <span className="text-5xl mb-3">🍕</span>
             <span className='text-xl font-semibold text-gray-800 mb-2'>Pizza Management</span>
             <span className='text-gray-600 text-center'>Add, edit, and manage pizza menu</span>
