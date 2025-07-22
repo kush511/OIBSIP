@@ -52,7 +52,6 @@ export const getInventory = async (req, res) => {
         const allItems = await InventoryModel.find({}, { name: 1, quantity: 1, category: 1, _id: 0 })
 
         res.json({
-            message: "Here are all the quantites and categories",
             allItems
         })
     } catch (error) {
@@ -119,7 +118,6 @@ export const allOrders = async (req, res) => {
             .populate('pizzaRef')
             .populate('userId', 'username email');
         res.json({
-            message: "All orders from users are:",
             allOrders
         })
     } catch (error) {
@@ -133,6 +131,11 @@ export const changeStatus = async (req, res) => {
 
     try {
         const status = req.body.status;
+
+        const allowed = ['Not started', 'working', 'completed'];
+        if (!allowed.includes(status)) {
+            return res.status(400).json({ message: 'Invalid status value' });
+        }
         await OrderModel.findByIdAndUpdate(req.params.id,
             { $set: { status } },
             { new: true })
@@ -141,7 +144,7 @@ export const changeStatus = async (req, res) => {
             status
         })
     } catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             message: "Error updating status"
         })
     }
@@ -194,56 +197,59 @@ export const deletePizzaFromPublic = async (req, res) => {
 
 }
 
-export const checkInventoryThreshold =async (req,res)=>{
-try {
-   const {lowStockItems} = await getLowStockItems()
+export const checkInventoryThreshold = async (req, res) => {
+    try {
+        const { lowStockItems } = await getLowStockItems()
 
-if(lowStockItems.length === 0){
-    res.json({
-        message:"All items are above threshold"
-    })
-}
-else {
-    res.json({
-        message:"This are less than threshold ",
-        lowStockItems
-    })
-}
-} catch (error) {
-    res.status(500).json({
-        message:"issue checking",
-        error
-    })
-}
+        if (lowStockItems.length === 0) {
+            res.json({
+                message: "All items are above threshold"
+            })
+        }
+        else {
+            res.json({
+                message: "This are less than threshold ",
+                lowStockItems
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "issue checking",
+            error
+        })
+    }
 }
 
 export const getAdminDashboardStats = async (req, res) => {
 
-   try {
-     const totalOrders = await OrderModel.countDocuments()
-    const totalMenuPizzas = await PizzaModel.countDocuments()
+    try {
+        const totalOrders = await OrderModel.countDocuments()
+        const totalMenuPizzas = await PizzaModel.countDocuments()
 
-   const {lowStockItems,allItems} = await getLowStockItems()
-   
+        const { lowStockItems, allItems } = await getLowStockItems()
 
-//    additional stats 
- const completedOrders = await OrderModel.countDocuments({ status: 'completed' });
-        const pendingOrders = await OrderModel.countDocuments({ status: 'pending' });
-const LowStockItemsCount = lowStockItems.length
-console.log(lowStockItems,LowStockItemsCount);
+
+        //    additional stats 
+        const notStartedOrders = await OrderModel.countDocuments({ status: 'Not started' });
+    const workingOrders    = await OrderModel.countDocuments({ status: 'working' });
+    const completedOrders  = await OrderModel.countDocuments({ status: 'completed' }); 
+        
+        const LowStockItemsCount = lowStockItems.length
+       
 
         res.json({
             totalOrders,
             totalMenuPizzas,
             totalInventoryItems: allItems.length,
             lowStockItemsCount: LowStockItemsCount,
-            completedOrders,
-            pendingOrders,
+            notStartedOrders,
+            workingOrders,
+            completedOrders
         });
-   } catch (error) {
-    return res.status(500).json({
+    } catch (error) {
+        return res.status(500).json({
             message: 'Failed to fetch dashboard statistics'
         });
-   }
+    }
 
 }

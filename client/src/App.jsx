@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/adminRoute';
 import OrderManagement from './pages/OrderManagement';
+import Inventory from './pages/Inventory';
 
 
 function App() {
@@ -35,11 +36,20 @@ function App() {
             </AdminRoute>
 
           } />
+
+          <Route path="admin/Inventory" element={
+            <AdminRoute>
+              <Inventory />
+            </AdminRoute>
+
+          } />
+
           <Route path="/dashboard" element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
           } />
+
           
           <Route path="/" element={<Navigate to="/dashboard" />} />
         </Routes>

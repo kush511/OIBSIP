@@ -52,7 +52,7 @@ const navigate = useNavigate()
 
         
 <div className='flex justify-center items-center'>
-        <div className='flex px-5 text-white bg-blue-400 hover:bg-blue-500 justify-center items-center h-12 rounded-md font-medium'>
+        <div className='flex px-5 text-white bg-blue-400 hover:bg-blue-500 justify-center items-center h-11 rounded-md font-medium'>
           <a href="http://localhost:5173/dashboard"  target="_blank" >View Site ↗</a>
         </div>
   
@@ -87,7 +87,7 @@ const navigate = useNavigate()
             <span className='text-xl font-semibold text-gray-800 mb-2'>Order Management</span>
             <span className='text-gray-600 text-center'>View and manage customer orders</span>
           </div>
-          <div className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
+          <div  onClick={() => navigate('/admin/inventory')} className='bg-white h-48 border border-gray-200 flex flex-col justify-center items-center p-6 shadow-md hover:-translate-y-1 hover:shadow-lg rounded-lg cursor-pointer transition-all duration-200'>
             <span className="text-5xl mb-3">📦</span>
             <span className='text-xl font-semibold text-gray-800 mb-2'>Inventory</span>
             <span className='text-gray-600 text-center'>Manage ingredients and stock levels</span>

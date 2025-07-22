@@ -28,8 +28,8 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["proceed","working","completed"],
-    default:"proceed",
+    enum: ["Not started","working","completed"],
+    default:"Not started",
   },
   paymentStatus: {
     type: String,
