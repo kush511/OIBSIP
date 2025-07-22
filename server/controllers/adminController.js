@@ -49,7 +49,7 @@ export const seeCustomPizzas = async (req, res) => {
 
 export const getInventory = async (req, res) => {
     try {
-        const allItems = await InventoryModel.find({}, { name: 1, quantity: 1, category: 1, _id: 0 })
+        const allItems = await InventoryModel.find({}, { name: 1, quantity: 1, category: 1, threshold: 1, _id: 1 })
 
         res.json({
             allItems
@@ -82,34 +82,28 @@ export const addItem = async (req, res) => {
 }
 
 export const manualUpdate = async (req, res) => {
+    const { name, quantity } = req.body;
+    const updateFields = {}
 
-    try {
-        const { name, quantity } = req.body;
-        const updateFields = {}
+    if (name) updateFields.name = name;
+    if (quantity !== undefined) updateFields.quantity = quantity
 
-        if (name) updateFields.name = name;
-        if (quantity !== undefined) updateFields.quantity = quantity
+console.log(req.params.id);
 
+    const updatedItem = await InventoryModel.findByIdAndUpdate(req.params.id,
+        { $set: updateFields },
+        { new: true }
+    )
 
-        const updatedItem = await InventoryModel.findByIdAndUpdate(req.params.id,
-            { $set: updateFields },
-            { new: true }
-        )
-
-        if (!updatedItem) {
-            return res.status(500).json({
-                message: "Item not found"
-            })
-        }
-        res.json({
-            message: "Item successfully updated",
-            updatedItem
-        })
-    } catch (error) {
-        res.json({
-            message: "Some error occured while updating items manually" + error
+    if (!updatedItem) {
+        return res.status(500).json({
+            message: "Item not found"
         })
     }
+    res.json({
+        updatedItem
+    })
+
 }
 
 export const allOrders = async (req, res) => {
@@ -208,7 +202,7 @@ export const checkInventoryThreshold = async (req, res) => {
         }
         else {
             res.json({
-                message: "This are less than threshold ",
+
                 lowStockItems
             })
         }
@@ -231,11 +225,11 @@ export const getAdminDashboardStats = async (req, res) => {
 
         //    additional stats 
         const notStartedOrders = await OrderModel.countDocuments({ status: 'Not started' });
-    const workingOrders    = await OrderModel.countDocuments({ status: 'working' });
-    const completedOrders  = await OrderModel.countDocuments({ status: 'completed' }); 
-        
+        const workingOrders = await OrderModel.countDocuments({ status: 'working' });
+        const completedOrders = await OrderModel.countDocuments({ status: 'completed' });
+
         const LowStockItemsCount = lowStockItems.length
-       
+
 
         res.json({
             totalOrders,
