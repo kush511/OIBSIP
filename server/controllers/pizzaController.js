@@ -49,8 +49,8 @@ export const customPizza = async (req, res) => {
 }
 
 export const myCustomPizzas = async (req, res) => {
-    const userId = req.userId;
-    console.log(userId);
+    const userId = req.userId.userId;
+    console.log(userId.userId);
 
 
 
@@ -134,9 +134,7 @@ export const getMyOrders = async (req, res) => {
     const ObjUserId = new mongoose.Types.ObjectId(userId)
 
 
-    const orderByUser = await OrderModel.find({ userId: ObjUserId })
-
-        .populate('pizzaRef')
+    const orderByUser = await OrderModel.find({ userId: ObjUserId }).populate('pizzaRef')
 
 
     res.json({
