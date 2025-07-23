@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { useCart } from '../components/CartContent'
 
 const Dashboard = () => {
     const [pizzas, setPizza] = useState([])
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
-
+    const { addToCart,cart } = useCart()
     useEffect(() => {
         fetchPizzas();
     }, [])
@@ -32,11 +33,16 @@ const Dashboard = () => {
         navigate('/login')
     }
 
-    const addToCart = (pizza) => {
-        // TODO: Implement cart functionality
-        alert(`Added ${pizza.title} to cart!`)
-    }
-
+    const handleAddToCart = (pizza) => {
+        addToCart({
+            id: pizza._id,
+            type: 'standard',
+            title: pizza.title,
+            price: pizza.price,
+            quantity: 1
+        });
+        alert(`Added ${pizza.title} to cart!`);// removeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee later
+    };
     if (loading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
@@ -52,7 +58,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50">
+        <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 ">
             {/* Enhanced Navigation Bar */}
             <nav className="bg-white shadow-md sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -65,24 +71,27 @@ const Dashboard = () => {
 
                         {/* Navigation Links */}
                         <div className="hidden lg:flex items-center space-x-8">
-                            {['Menu', 'Customize', 'My Pizzas', 'Orders'].map(label => (
-                                <a
-                                  key={label}
-                                  href={`#${label.toLowerCase().replace(/ /g, '')}`}
-                                  className="text-gray-700 hover:text-amber-600 font-medium transition-colors"
-                                >
-                                  {label}
-                                </a>
-                            ))}
+                            <a href="#menu" className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                                Menu
+                            </a>
+                            <a href="#customize" className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                                Customize
+                            </a>
+                            <a  className="text-gray-700 hover:text-amber-600 font-medium transition-colors cursor-pointer">
+                                <span onClick={()=>navigate("/customPizzas/mine")}>My customs</span>
+                            </a>
+                            <a onClick={()=>navigate("/my-orders")} className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                                Orders
+                            </a>
                         </div>
 
                         {/* Cart & Logout */}
                         <div className="flex items-center space-x-4">
-                            <button className="relative bg-amber-500 hover:bg-amber-600 p-2 rounded-full transition">
+                            <button onClick={() => navigate("/cart")} className="relative bg-amber-500 hover:bg-amber-600 p-2 rounded-full transition">
                                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9" />
                                 </svg>
-                                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1">0</span>
+                                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1">{cart.length}</span>
                             </button>
                             <button
                                 onClick={handleLogout}
@@ -107,7 +116,7 @@ const Dashboard = () => {
                         <span className="text-8xl">🍕</span>
                     </div>
                     <h1 className="text-5xl font-mono md:text-6xl font-bold mb-6 drop-shadow-2xl">
-                       Mero Pizzeria
+                        Mero Pizzeria
                     </h1>
                     <p className="text-xl md:text-2xl mb-8 drop-shadow-lg max-w-2xl mx-auto leading-relaxed">
                         Authentic Italian pizzas made with love, fresh ingredients, and traditional recipes passed down through generations
@@ -117,7 +126,7 @@ const Dashboard = () => {
                             Order Now 🚀
                         </button>
                         <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300">
-                           <a href="#menu"> View Menu 📖</a>
+                            <a href="#menu"> View Menu 📖</a>
                         </button>
                     </div>
                 </div>
@@ -226,7 +235,7 @@ const Dashboard = () => {
                                     </div>
 
                                     <button
-                                        onClick={() => addToCart(pizza)}
+                                        onClick={() => handleAddToCart(pizza)}
                                         className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                                     >
                                         <span>Add to Cart</span>
@@ -240,32 +249,35 @@ const Dashboard = () => {
                     ))}
                 </div>
 
+
+                    <div id="customize"></div>
+
                 {/* Enhanced Custom Pizza Section */}
-                <div id="custom" className="mt-20 text-center">
-  <div
-    className="bg-[url('https://imgs.search.brave.com/ZjqlVuIMbjt7-5mIDT04ReaoTkCqRoaYbgml0xq3gVY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWFn/ZS5zaHV0dGVyc3Rv/Y2suY29tL2ltYWdl/LXBob3RvL3NpeC1z/bGljZXMtcGl6emEt/ZGlmZmVyZW50LXRv/cHBpbmdzLTI2MG53/LTExNDEyOTEyNC5q/cGc')] 
+                <div className="mt-20  text-center">
+                    <div 
+                        className="bg-[url('https://imgs.search.brave.com/29HuJXCm8E-iScfef-QX23Qo4X6iWHdP72oZn4QPKpE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTAx/MTI2MzI5OC9waG90/by9waXp6YS1zbGlj/ZXMtdmFyaW91cy1m/bGF2b3JzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1nM3NH/bnhCbUp1Z21XUzJS/ZFdvdnREbm1GakNP/UDZ2bFVUY1hUVUxB/WTl3PQ')] 
     bg-cover bg-center rounded-3xl shadow-2xl p-12 max-w-4xl mx-auto text-white relative overflow-hidden"
-  >
-    <div className="absolute inset-0 bg-black/50"></div>
-    <div className="relative z-10">
-      <div className="text-7xl mb-6 animate-pulse">🛠️</div>
-      <h3 className="text-4xl font-bold font-sans font-stretch-50% mb-6">
-        Create Your Dream Pizza
-      </h3>
-      <p className="text-xl text-gray-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-        Unleash your creativity! Choose from our premium ingredients and build the perfect pizza that matches your unique taste
-      </p>
-      <div className="flex justify-center space-x-4">
-        <button onClick={()=>navigate("/make-customPizza")}  className="bg-white text-gray-800 hover:bg-gray-200 font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
-          Build Your Pizza
-        </button>
-        <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300">
-          View Ingredients
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+                    >
+                        <div className="absolute inset-0 bg-black/50"></div>
+                        <div className="relative z-10">
+                            <div className="text-7xl mb-6 animate-pulse">😋</div>
+                            <h3 className="text-4xl font-bold font-sans font-stretch-50% mb-6">
+                                Create Your Dream Pizza
+                            </h3>
+                            <p className="text-xl text-gray-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+                                Unleash your creativity! Choose from our premium ingredients and build the perfect pizza that matches your unique taste
+                            </p>
+                            <div className="flex justify-center space-x-4">
+                                <button onClick={() => navigate("/make-customPizza")} className="bg-white text-gray-800 hover:bg-gray-200 font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+                                    Build Your Pizza
+                                </button>
+                                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300">
+                                    View Ingredients
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 

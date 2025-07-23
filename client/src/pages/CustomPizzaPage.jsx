@@ -47,91 +47,93 @@ const CustomPizzaPage = () => {
 
   return (
     <>
-      
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-            🍕 Build Your Custom Pizza
-          </h1>
+      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-12 px-4 sm:px-6">
+       <div className=' text-3xl fixed top-5 font-bold text-gray-800'>Pizzeria</div>
+        <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-orange-500 py-6">
+            <h1 className="text-4xl font-extrabold text-white text-center tracking-wide">
+               Build By Your Choice
+            </h1>
+          </div>
           
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="p-8 space-y-8">
             {/* Base Selection */}
-            <div>
-              <label className="block text-lg font-semibold text-gray-700 mb-3">
-                Choose Your Base
+            <div className="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-md">
+              <label className="block text-xl font-bold text-orange-700 mb-4">
+                1. Choose Your Base
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {['Thin Crust', 'Cheese Burst', 'Whole Wheat'].map(base => (
-                  <label key={base} className="flex items-center space-x-3 cursor-pointer">
+                  <label key={base} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
                       type="radio"
                       name="base"
                       value={base}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text-orange-500"
+                      className="w-5 h-5 text-orange-500 border-orange-300 focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">{base}</span>
+                    <span className="ml-3 text-gray-800 font-medium">{base}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Sauce Selection */}
-            <div>
-              <label className="block text-lg font-semibold text-gray-700 mb-3">
-                Choose Your Sauce
+            <div className="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-md">
+              <label className="block text-xl font-bold text-orange-700 mb-4">
+                2. Select Your Sauce
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {['Tomato Sauce', 'Pesto', 'White Garlic Sauce'].map(sauce => (
-                  <label key={sauce} className="flex items-center space-x-3 cursor-pointer">
+                  <label key={sauce} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
                       type="radio"
                       name="sauce"
                       value={sauce}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text-orange-500"
+                      className="w-5 h-5 text-orange-500 border-orange-300 focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">{sauce}</span>
+                    <span className="ml-3 text-gray-800 font-medium">{sauce}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Cheese Selection */}
-            <div>
-              <label className="block text-lg font-semibold text-gray-700 mb-3">
-                Choose Your Cheese
+            <div className="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-md">
+              <label className="block text-xl font-bold text-orange-700 mb-4">
+                3. Pick Your Cheese
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {['Mozzarella', 'Cheddar', 'Parmesan'].map(cheese => (
-                  <label key={cheese} className="flex items-center space-x-3 cursor-pointer">
+                  <label key={cheese} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
                       type="radio"
                       name="cheese"
                       value={cheese}
                       onChange={handleInputChange}
-                      className="w-4 h-4 text-orange-500"
+                      className="w-5 h-5 text-orange-500 border-orange-300 focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">{cheese}</span>
+                    <span className="ml-3 text-gray-800 font-medium">{cheese}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             {/* Veggies Selection */}
-            <div>
-              <label className="block text-lg font-semibold text-gray-700 mb-3">
-                Choose Your Toppings
+            <div className="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-md">
+              <label className="block text-xl font-bold text-orange-700 mb-4">
+                4. Add Your Toppings
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {['Mushrooms', 'Jalapenos', 'Onion', 'Capsicum', 'Olive'].map(veggie => (
-                  <label key={veggie} className="flex items-center space-x-3 cursor-pointer">
+                  <label key={veggie} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
                       type="checkbox"
                       onChange={(e) => handleVeggiesChange(veggie, e.target.checked)}
-                      className="w-4 h-4 text-orange-500"
+                      className="w-5 h-5 text-orange-500 border-orange-300 focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">{veggie}</span>
+                    <span className="ml-3 text-gray-800 font-medium">{veggie}</span>
                   </label>
                 ))}
               </div>
@@ -140,9 +142,9 @@ const CustomPizzaPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:transform-none"
             >
-              {loading ? 'Creating Pizza...' : 'Create Custom Pizza'}
+              {loading ? '🔄 Creating Your Masterpiece...' : '🎨 Create Your Custom Pizza'}
             </button>
           </form>
         </div>

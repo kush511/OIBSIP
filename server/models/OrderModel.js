@@ -21,6 +21,10 @@ const OrderSchema = new Schema({
     required: true,
     refPath: "pizzaModelType",
   },
+  quantity: {
+    type: Number,
+    required: true
+  },
   pizzaModelType: {
     type: String,
     required: true,
@@ -28,8 +32,8 @@ const OrderSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ["Not started","working","completed"],
-    default:"Not started",
+    enum: ["Not started", "working", "completed"],
+    default: "Not started",
   },
   paymentStatus: {
     type: String,
@@ -39,4 +43,4 @@ const OrderSchema = new Schema({
 });
 
 
-export const OrderModel = mongoose.model("orders",OrderSchema)
+export const OrderModel = mongoose.model("orders", OrderSchema)

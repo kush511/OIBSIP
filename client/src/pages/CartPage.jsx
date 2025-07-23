@@ -9,10 +9,10 @@ import { useCart } from '../components/CartContent';
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
   const [loading, setLoading] = useState(false);
-  
+
   const navigate = useNavigate();
- console.log('Current cart:', cart);
- 
+  console.log('Current cart:', cart);
+
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
   };
@@ -38,7 +38,7 @@ const CartPage = () => {
       // Place orders for each item in cart
       for (const item of cart) {
         await axios.post(`${import.meta.env.VITE_API_BASE_URL}/pizza/order`, {
-          pizzaType: item.type, // 'menu' or 'custom'
+          pizzaType: item.type,
           pizzaRef: item.id,
           totalPrice: item.price * item.quantity,
           quantity: item.quantity
@@ -46,12 +46,11 @@ const CartPage = () => {
           headers: { token }
         });
       }
-
+      navigate("/my-orders")
       alert('Orders placed successfully!');
       // Clear cart after successful order
       cart.forEach(item => removeFromCart(item.id));
-      
-      navigate('/my-orders');
+
     } catch (error) {
       console.error('Error placing order:', error);
       alert('Failed to place order. Please try again.');
@@ -62,11 +61,11 @@ const CartPage = () => {
 
   return (
     <>
-      
+
       <div className="min-h-screen bg-gray-50 p-6">
-        <span onClick={()=>navigate("/")} className='cursor-pointer text-left text-gray-800 text-2xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ← 
+        <span onClick={() => navigate("/")} className='cursor-pointer text-left text-gray-800 text-2xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ←
           <span className=''>Back</span>
-          </span>
+        </span>
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">🛒 Your Cart</h1>
 
@@ -98,7 +97,7 @@ const CartPage = () => {
                         <p className="text-sm text-gray-600 capitalize">
                           {item.type === 'custom' ? 'Custom Pizza' : 'Menu Pizza'}
                         </p>
-                        
+
                         {/* Show custom pizza details */}
                         {item.details && (
                           <div className="mt-2 text-sm text-gray-500">

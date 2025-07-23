@@ -75,7 +75,7 @@ export const myCustomPizzas = async (req, res) => {
 export const addOrder = async (req, res) => {
     try {
         const { userId, role } = req.userId;
-        const { pizzaType, totalPrice, pizzaRef } = req.body;
+        const { pizzaType, totalPrice, pizzaRef,quantity } = req.body;
 
         const order = await OrderModel.create({
             userId,
@@ -83,6 +83,7 @@ export const addOrder = async (req, res) => {
             pizzaModelType: pizzaType === "custom" ? "custompizzas" : "allpizzas",
             pizzaType,
             totalPrice,
+            quantity
         });
 
         // fetch from appropriate model based on pizza type

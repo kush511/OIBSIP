@@ -5,5 +5,10 @@ import App from './App.jsx'
 import { CartProvider } from './components/CartContent.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <CartProvider><App /></CartProvider>
+   <StrictMode>
+     <CartProvider>
+    <App />
+    </CartProvider>
+   </StrictMode>
+ 
 )

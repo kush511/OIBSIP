@@ -42,8 +42,8 @@ const MyCustomPizzasPage = () => {
 
   const calculatePrice = (pizza) => {
     // Base price for custom pizza
-    const basePrice = 300;
-    const toppingPrice = pizza.veggies ? pizza.veggies.length * 150.5 : 0;
+    const basePrice = 250;
+    const toppingPrice = pizza.veggies ? pizza.veggies.length * 119.5 : 0;
     return (basePrice + toppingPrice).toFixed(2);
   };
 
@@ -106,7 +106,10 @@ const MyCustomPizzasPage = () => {
   return (
     <>
      
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-gray-50 p-4 ">
+        <span onClick={()=>navigate("/")} className='cursor-pointer text-left text-gray-800 text-2xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ← 
+          <span className=''>Back</span>
+          </span>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
@@ -115,6 +118,7 @@ const MyCustomPizzasPage = () => {
             <p className="text-lg text-gray-600">
               Your personalized pizza creations are ready to order!
             </p>
+
           </div>
 
           {customPizzas.length === 0 ? (
@@ -196,7 +200,7 @@ const MyCustomPizzasPage = () => {
                       <div className="border-t pt-3">
                         <div className="flex justify-between items-center mb-3">
                           <span className="text-lg font-bold text-orange-600">
-                            Rs.{calculatePrice(pizza)}
+                            ₹{calculatePrice(pizza)}
                           </span>
                           <span className="text-sm text-gray-500">
                             Created {pizza.createdAt ? new Date(pizza.createdAt).toLocaleDateString() : 'Recently'}

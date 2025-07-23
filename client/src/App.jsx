@@ -12,6 +12,8 @@ import Inventory from './pages/Inventory';
 import PizzaManagement from './pages/PizzaManagement';
 import CustomPizzaPage from './pages/CustomPizzaPage';
 import MyCustomPizzasPage from './pages/MyCustomPizzaPage';
+import CartPage from './pages/CartPage';
+import MyOrdersPage from './pages/MyOrdersPage';
 
 
 function App() {
@@ -61,7 +63,7 @@ function App() {
             </PrivateRoute>
           } />
 
-  <Route path="/customPizzas/mine" element={
+          <Route path="/customPizzas/mine" element={
             <PrivateRoute>
               <MyCustomPizzasPage />
             </PrivateRoute>
@@ -73,6 +75,17 @@ function App() {
             </PrivateRoute>
           } />
 
+          <Route path="/cart" element={
+            <PrivateRoute>
+              <CartPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/my-orders" element={
+            <PrivateRoute>
+              <MyOrdersPage />
+            </PrivateRoute>
+          } />
 
           <Route path="/" element={<Navigate to="/dashboard" />} />
         </Routes>
