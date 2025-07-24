@@ -1,7 +1,7 @@
 // New PizzaManagement.jsx (create this file for the /admin/public-pizza route)
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import AddPizzaModal from '../components/addPizzaModel';
+import AddPizzaModal from '../components/AddPizzaModel';
 import EditPizzaModal from '../components/EditPizzaModel';
 import { useNavigate } from 'react-router-dom';
 
