@@ -6,7 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
-import AdminRoute from './components/adminRoute';
+import AdminRoute from './components/AdminRoute.jsx';
 import OrderManagement from './pages/OrderManagement';
 import Inventory from './pages/Inventory';
 import PizzaManagement from './pages/PizzaManagement';

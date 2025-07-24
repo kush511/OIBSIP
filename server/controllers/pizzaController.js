@@ -8,10 +8,10 @@ import { InventoryModel } from "../models/InventoryItemModel.js";
 
 export const allPizzas = async (req, res) => {
     const userId = req.userId
-    console.log(userId);
+   
 
     const pizzas = await PizzaModel.find()
-    console.log(pizzas);
+    
 
     if (pizzas) {
         return res.json({
@@ -50,14 +50,14 @@ export const customPizza = async (req, res) => {
 
 export const myCustomPizzas = async (req, res) => {
     const userId = req.userId.userId;
-    console.log(userId.userId);
+    
 
 
 
     const mypizzas = await CustomPizzaModel.find({
         userId
     },)
-    console.log(mypizzas);
+   
 
 
     if (mypizzas) {
