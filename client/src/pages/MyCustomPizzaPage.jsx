@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../components/CartContent';
+import toast from 'react-hot-toast';
 
 
 
@@ -63,8 +64,16 @@ const MyCustomPizzasPage = () => {
       }
     });
     
-    // Optional: Show success message
-    alert('Custom pizza added to cart!');
+    // Show success message using toast
+    toast.success('🍕 Custom pizza added to cart!', {
+      duration: 2000,
+      position: 'top-center',
+      style: {
+        background: '#22c55e',
+        color: '#fff',
+        fontWeight: 'bold',
+      },
+    });
   };
 
   if (loading) {
@@ -107,8 +116,8 @@ const MyCustomPizzasPage = () => {
     <>
      
       <div className="min-h-screen bg-gray-50 p-4 ">
-        <span onClick={()=>navigate("/")} className='cursor-pointer text-left text-gray-800 text-2xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ← 
-          <span className=''>Back</span>
+        <span onClick={()=>navigate("/")} className='cursor-pointer text-left text-gray-800 text-4xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ← 
+          <span className='text-3xl'>Back</span>
           </span>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8">
@@ -133,7 +142,7 @@ const MyCustomPizzasPage = () => {
                 </p>
                 <button
                   onClick={() => navigate('/make-customPizza')}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                  className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                 >
                   Create Your First Custom Pizza
                 </button>
@@ -147,7 +156,7 @@ const MyCustomPizzasPage = () => {
                 </p>
                 <button
                   onClick={() => navigate('/make-customPizza')}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                  className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                 >
                   + Create New Pizza
                 </button>
@@ -209,7 +218,7 @@ const MyCustomPizzasPage = () => {
 
                         <button
                           onClick={() => handleAddToCart(pizza)}
-                          className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded font-medium transition-colors duration-200"
+                          className="cursor-pointer w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded font-medium transition-colors duration-200"
                         >
                           Add to Cart
                         </button>

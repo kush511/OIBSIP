@@ -14,6 +14,7 @@ import CustomPizzaPage from './pages/CustomPizzaPage';
 import MyCustomPizzasPage from './pages/MyCustomPizzaPage';
 import CartPage from './pages/CartPage';
 import MyOrdersPage from './pages/MyOrdersPage';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
   }
   return (
     <>
+    <Toaster/>
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />

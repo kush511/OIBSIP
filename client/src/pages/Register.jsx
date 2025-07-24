@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Register() {
     const [email, setEmail] = useState('');
@@ -42,7 +43,15 @@ function Register() {
             console.log('Register Success:', response.data);
 
             // SUCCESS: Show message and redirect to login
-            alert('Registration successful! Please login with your credentials.');
+            toast.success('Registration successful! Please login with your credentials.', {
+                duration: 3000,
+                position: 'top-center',
+                style: {
+                    background: '#22c55e',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                }
+            });
             navigate('/login');
 
         } catch (error) {

@@ -2,6 +2,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const OrderManagement = () => {
 
@@ -52,7 +53,15 @@ const OrderManagement = () => {
 
         } catch (error) {
             console.error("Failed to update status:", error);
-            alert("Failed to update order status");
+            toast.error('Failed to update status', {
+                duration: 2000,
+                position: 'top-center',
+                style: {
+                    background: '#FF5733 ',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                }
+            });
         }
     }
 
@@ -61,8 +70,8 @@ const OrderManagement = () => {
     return (
         <>
             <div className='min-h-screen bg-gradient-to-br from-orange-50 to-white p-8'>
-                <span onClick={() => navigate("/admin/dashboard")}
-                    className='mr-6 px-4 py-2 rounded-md bg-gray-200 cursor-pointer'>
+                <span onClick={()=>navigate("/admin/dashboard")}
+                    className='mr-6 px-4 py-2 rounded-md bg-gray-300 cursor-pointer'>
                     Dashboard
                 </span>
                 <div className='max-w-7xl mx-auto'>
@@ -106,7 +115,7 @@ const OrderManagement = () => {
                         {/* Order Rows */}
                         <div className='divide-y divide-gray-100'>
                             {orders.map(order => (
-                                <div className='grid grid-cols-7 hover:bg-gray-50 transition-colors duration-150 py-4 px-6' key={order._id}>
+                                <div className='grid grid-cols-7 hover:bg-gray-50 items-center transition-colors duration-150 py-4 px-6' key={order._id}>
                                     <div className="font-mono text-sm bg-gray-100 py-1 px-2 rounded w-fit">{order._id.slice(-8)}</div>
                                     <div>
                                         <div className="font-semibold text-gray-700">{order.userId.username}</div>
@@ -134,7 +143,7 @@ const OrderManagement = () => {
                                     <div>
                                         <button
                                             onClick={() => changeStatus(order._id, order.status)}
-                                            className={`px-4 py-1.5 mt-1.5 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105 ${order.status === 'completed' ? 'bg-green-100 text-green-700 hover:bg-green-200' :
+                                            className={`px-4 py-1.5 cursor-pointer mt-1.5 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105 ${order.status === 'completed' ? 'bg-green-100 text-green-700 hover:bg-green-200' :
                                                     order.status === 'working' ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' :
                                                         'bg-red-100 text-red-700 hover:bg-red-200'
                                                 }`}

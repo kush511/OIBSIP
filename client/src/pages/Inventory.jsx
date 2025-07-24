@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal'; // Original add modal (update with improvements if needed)
 import EditModal from '../components/EditModal'; // New edit modal (update with improvements below)
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Inventory = () => {
   const [items, setItems] = useState([]);
@@ -9,7 +11,9 @@ const Inventory = () => {
   const [showEditModal, setShowEditModal] = useState(false); // For edit modal
   const [lessQuantityItemName, setLessQuantityItemName] = useState([]);
   const [editingItem, setEditingItem] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(''); // New: For search functionality
+  const [searchQuery, setSearchQuery] = useState(''); 
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchItems();
@@ -24,7 +28,15 @@ const Inventory = () => {
       });
       setItems(response.data.allItems);
     } catch (error) {
-      alert(error);
+       toast.error({error}, {
+                duration: 2000,
+                position: 'top-center',
+                style: {
+                    background: '#FF5733 ',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                }
+            });
     }
   }
 
@@ -70,9 +82,13 @@ const Inventory = () => {
         onSave={handleSave}
       />
 
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white p-6">
+        <span onClick={() => navigate("/admin/dashboard")}
+                    className='mr-6 px-4 py-2 rounded-md bg-gray-300 cursor-pointer '>
+                    Dashboard
+                </span>
         {/* Clean Header */}
-        <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
+        <div className="bg-white rounded-lg shadow-sm p-8 my-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
@@ -84,7 +100,7 @@ const Inventory = () => {
             </div>
             <button
               onClick={() => setShowModal(true)}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
+              className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
             >
               <span className="text-lg">+</span> Add Item
             </button>
@@ -97,7 +113,7 @@ const Inventory = () => {
           placeholder="Search items..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full max-w-xl mx-auto p-3 mb-6 border rounded-lg focus:outline-none focus:border-orange-500 shadow-sm"
+          className="w-full max-w-xl mx-108 p-3 mb-6 border-2 rounded-lg focus:outline-none focus:border-gray-500 shadow-sm "
         />
 
         {/* Inventory Content */}

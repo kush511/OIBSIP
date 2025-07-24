@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../components/CartContent';
+import toast from 'react-hot-toast';
 
 
 
@@ -27,7 +28,15 @@ const CartPage = () => {
 
   const handleCheckout = async () => {
     if (cart.length === 0) {
-      alert('Your cart is empty!');
+      toast.error('Your cart is empty!', {
+        duration: 2000,
+        position: 'top-center',
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
       return;
     }
 
@@ -47,13 +56,29 @@ const CartPage = () => {
         });
       }
       navigate("/my-orders")
-      alert('Orders placed successfully!');
+      toast.success('🎉 Orders placed successfully!', {
+        duration: 3000,
+        position: 'top-center',
+        style: {
+          background: '#22c55e',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
       // Clear cart after successful order
       cart.forEach(item => removeFromCart(item.id));
 
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      toast.error('Failed to place order. Please try again.', {
+        duration: 3000,
+        position: 'top-center',
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -63,8 +88,9 @@ const CartPage = () => {
     <>
 
       <div className="min-h-screen bg-gray-50 p-6">
-        <span onClick={() => navigate("/")} className='cursor-pointer text-left text-gray-800 text-2xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'> ←
-          <span className=''>Back</span>
+        <span onClick={() => navigate("/")} className='cursor-pointer text-left text-gray-800 text-4xl font-medium bg-gray-50 rounded-xl justify-center items-center py-1 px-2'>
+           ←
+          <span className='text-3xl'>Back</span>
         </span>
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">🛒 Your Cart</h1>
@@ -79,7 +105,7 @@ const CartPage = () => {
                 </p>
                 <button
                   onClick={() => navigate('/')}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                  className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                 >
                   Browse Menu
                 </button>
@@ -114,14 +140,14 @@ const CartPage = () => {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                            className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center"
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
                           >
                             -
                           </button>
                           <span className="w-8 text-center font-medium">{item.quantity}</span>
                           <button
                             onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                            className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center"
+                            className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center cursor-pointer"
                           >
                             +
                           </button>
@@ -140,7 +166,7 @@ const CartPage = () => {
                         {/* Remove Button */}
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="text-red-500 hover:text-red-700 font-medium"
+                          className="text-red-500 hover:text-red-700 font-medium cursor-pointer"
                         >
                           Remove
                         </button>
@@ -176,7 +202,7 @@ const CartPage = () => {
                 <button
                   onClick={handleCheckout}
                   disabled={loading}
-                  className="w-full mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
+                  className="w-full cursor-pointer mt-6 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
                 >
                   {loading ? 'Placing Order...' : 'Place Order'}
                 </button>

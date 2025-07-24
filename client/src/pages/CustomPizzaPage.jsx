@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 const CustomPizzaPage = () => {
@@ -39,7 +40,15 @@ const CustomPizzaPage = () => {
       navigate('/customPizzas/mine');
     } catch (error) {
       console.error('Error creating custom pizza:', error);
-      alert('Failed to create custom pizza. Please try again.');
+      toast.error('Failed to create custom pizza. Please try again.', {
+        duration: 3000,
+        position: 'top-center',
+        style: {
+          background: '#ef4444',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -48,7 +57,7 @@ const CustomPizzaPage = () => {
   return (
     <>
       <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white py-12 px-4 sm:px-6">
-       <div className=' text-3xl fixed top-5 font-bold text-gray-800'>Pizzeria</div>
+       <div onClick={()=>navigate("/")} className='cursor-pointer text-3xl fixed top-5 font-bold text-gray-800'>Pizzeria</div>
         <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-orange-500 py-6">
             <h1 className="text-4xl font-extrabold text-white text-center tracking-wide">
@@ -63,9 +72,10 @@ const CustomPizzaPage = () => {
                 1. Choose Your Base
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['Thin Crust', 'Cheese Burst', 'Whole Wheat'].map(base => (
+                {['Thin Crust', 'Cheese Burst', 'Whole Wheat','Gluten Free Crust','Crunchy Thin Crust'].map(base => (
                   <label key={base} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
+                    
                       type="radio"
                       name="base"
                       value={base}
@@ -84,9 +94,10 @@ const CustomPizzaPage = () => {
                 2. Select Your Sauce
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['Tomato Sauce', 'Pesto', 'White Garlic Sauce'].map(sauce => (
+                {['Tomato Sauce', 'Pesto', 'White Garlic Sauce','BBQ Pizza Sauce','Hot Wing Sauce'].map(sauce => (
                   <label key={sauce} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
+                    
                       type="radio"
                       name="sauce"
                       value={sauce}
@@ -105,9 +116,10 @@ const CustomPizzaPage = () => {
                 3. Pick Your Cheese
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {['Mozzarella', 'Cheddar', 'Parmesan'].map(cheese => (
+                {['Mozzarella', 'Cheddar', 'Parmesan','Swiss Cheese','Feta'].map(cheese => (
                   <label key={cheese} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
+                    
                       type="radio"
                       name="cheese"
                       value={cheese}
@@ -126,9 +138,10 @@ const CustomPizzaPage = () => {
                 4. Add Your Toppings
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {['Mushrooms', 'Jalapenos', 'Onion', 'Capsicum', 'Olive'].map(veggie => (
+                {['Mushrooms', 'Jalapenos', 'Onion', 'Capsicum', 'Olive','PineApple'].map(veggie => (
                   <label key={veggie} className="flex items-center p-3 bg-white rounded-lg cursor-pointer hover:bg-orange-100 transition-colors duration-200">
                     <input
+                    
                       type="checkbox"
                       onChange={(e) => handleVeggiesChange(veggie, e.target.checked)}
                       className="w-5 h-5 text-orange-500 border-orange-300 focus:ring-orange-500"
@@ -142,7 +155,7 @@ const CustomPizzaPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:transform-none"
+              className="w-full bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-lg font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:transform-none"
             >
               {loading ? '🔄 Creating Your Masterpiece...' : '🎨 Create Your Custom Pizza'}
             </button>

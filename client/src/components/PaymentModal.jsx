@@ -84,14 +84,14 @@ const PaymentModal = ({ showPaymentModal, setShowPaymentModal, selectedOrder, on
             <>
               <button
                 onClick={handleClose}
-                className="flex-1 bg-gray-500 text-white py-2 px-4 rounded"
+                className="flex-1 bg-gray-500 text-white py-2 px-4 rounded cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handlePayment}
                 disabled={processing}
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded disabled:opacity-50"
+                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded disabled:opacity-50 cursor-pointer"
               >
                 {processing ? 'Processing...' : 'Pay Now'}
               </button>
@@ -101,7 +101,7 @@ const PaymentModal = ({ showPaymentModal, setShowPaymentModal, selectedOrder, on
           {paymentResult && (
             <button
               onClick={handleClose}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded"
+              className="w-full bg-orange-500 cursor-pointer hover:bg-orange-600 text-white py-2 px-4 rounded"
             >
               Close
             </button>

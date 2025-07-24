@@ -114,7 +114,7 @@ const MyOrdersPage = () => {
             </p>
             </div>
            <span onClick={()=>navigate("/")}
-            className='mr-6 px-4 py-2 rounded-md bg-gradient-to-l from-orange-400  to-red-400 cursor-pointer'> 
+            className='mr-6 px-4 py-2 rounded-md bg-gradient-to-r from-orange-400  to-red-400 text-white/90 cursor-pointer'> 
             Dashboard
             </span>
           </div>
@@ -135,7 +135,7 @@ const MyOrdersPage = () => {
                 </p>
                 <button
                   onClick={() => navigate('/')}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                  className="bg-orange-500 hover:bg-orange-600 cursor-pointer text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
                 >
                   Browse Menu
                 </button>
@@ -177,7 +177,16 @@ const MyOrdersPage = () => {
                         </div>
                         
                         <div className="text-right">
-                          <p className="text-2xl font-bold text-green-600">₹{order.totalPrice}</p>
+                          <p className="text-2xl font-bold text-green-600 ">₹{order.totalPrice}</p>
+                           {/* Pay Online Button - Only show if payment is pending */}
+                        {order.paymentStatus !== 'success' && (
+                          <button
+                            onClick={() => handlePaymentClick(order)}
+                            className="cursor-pointer mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                          >
+                            💳 Pay Online
+                          </button>
+                        )}
                         </div>
                       </div>
 
@@ -229,16 +238,9 @@ const MyOrdersPage = () => {
                           {order.pizzaModelType === 'custompizzas' ? 'Custom' : 'Standard'}
                         </span>
                         
-                        {/* Pay Online Button - Only show if payment is pending */}
-                        {order.paymentStatus !== 'success' && (
-                          <button
-                            onClick={() => handlePaymentClick(order)}
-                            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
-                          >
-                            💳 Pay Online
-                          </button>
-                        )}
+                       
                       </div>
+                      
                     </div>
                   </div>
                 </div>

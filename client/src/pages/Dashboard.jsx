@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useCart } from '../components/CartContent'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
     const [pizzas, setPizza] = useState([])
@@ -41,7 +42,15 @@ const Dashboard = () => {
             price: pizza.price,
             quantity: 1
         });
-        alert(`Added ${pizza.title} to cart!`);// removeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee later
+        toast.success(` Added ${pizza.title} to cart!`, {
+            duration: 2000,
+            position: 'top-center',
+            style: {
+                background: '#22c55e',
+                color: '#fff',
+                fontWeight: 'bold',
+            },
+        });
     };
     if (loading) {
         return (
@@ -58,44 +67,44 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 ">
+        <div className="min-h-screen bg-gradient-to-b from-red-50 via-orange-50 to-yellow-100 ">
             {/* Enhanced Navigation Bar */}
-            <nav className="bg-white shadow-md sticky top-0 z-50">
+            <nav className="bg-orange-100 shadow-md sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo & Branding */}
                         <div className="flex items-center space-x-2">
                             <span className="text-3xl">🍕</span>
-                            <span className="text-2xl font-bold text-gray-800 tracking-wide">Pizzeria</span>
+                            <span className="text-3xl font-bold text-gray-800 tracking-wide">Pizzeria</span>
                         </div>
 
                         {/* Navigation Links */}
-                        <div className="hidden lg:flex items-center space-x-8">
-                            <a href="#menu" className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                        <div className="hidden lg:flex  items-center space-x-10">
+                            <a href="#menu" className="cursor-pointer text-gray-800 text-xl hover:text-amber-600 font-medium transition-colors">
                                 Menu
                             </a>
-                            <a href="#customize" className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                            <a onClick={()=>navigate("/make-customPizza")} className="cursor-pointer text-gray-800 text-xl hover:text-amber-600 font-medium transition-colors">
                                 Customize
                             </a>
-                            <a  className="text-gray-700 hover:text-amber-600 font-medium transition-colors cursor-pointer">
+                            <a  className="text-gray-800 text-xl hover:text-amber-600 font-medium transition-colors cursor-pointer">
                                 <span onClick={()=>navigate("/customPizzas/mine")}>My customs</span>
                             </a>
-                            <a onClick={()=>navigate("/my-orders")} className="text-gray-700 hover:text-amber-600 font-medium transition-colors">
+                            <a onClick={()=>navigate("/my-orders")} className="text-gray-800 text-xl cursor-pointer hover:text-amber-600 font-medium transition-colors">
                                 Orders
                             </a>
                         </div>
 
                         {/* Cart & Logout */}
                         <div className="flex items-center space-x-4">
-                            <button onClick={() => navigate("/cart")} className="relative bg-amber-500 hover:bg-amber-600 p-2 rounded-full transition">
-                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button onClick={() => navigate("/cart")} className="relative bg-amber-500 hover:bg-amber-600 cursor-pointer p-2 rounded-full transition">
+                                <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9" />
                                 </svg>
                                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full px-1">{cart.length}</span>
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                                className="cursor-pointer bg-red-500  hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                             >
                                 Logout
                             </button>
@@ -115,18 +124,18 @@ const Dashboard = () => {
                     <div className="animate-bounce mb-6">
                         <span className="text-8xl">🍕</span>
                     </div>
-                    <h1 className="text-5xl font-mono md:text-6xl font-bold mb-6 drop-shadow-2xl">
-                        Mero Pizzeria
+                    <h1 className="text-5xl italic font-mono md:text-6xl font-bold mb-6 drop-shadow-2xl">
+                        Pizzeria
                     </h1>
-                    <p className="text-xl md:text-2xl mb-8 drop-shadow-lg max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-xl md:text-2xl font-[Oswald] mb-8 drop-shadow-lg max-w-2xl mx-auto leading-relaxed">
                         Authentic Italian pizzas made with love, fresh ingredients, and traditional recipes passed down through generations
                     </p>
                     <div className="flex justify-center space-x-4">
-                        <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
-                            Order Now 🚀
+                        <button onClick={()=>navigate("/my-orders")} className="cursor-pointer bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+                            Order Now 
                         </button>
                         <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300">
-                            <a href="#menu"> View Menu 📖</a>
+                            <a href="#menu"> View Menu </a>
                         </button>
                     </div>
                 </div>
@@ -236,7 +245,7 @@ const Dashboard = () => {
 
                                     <button
                                         onClick={() => handleAddToCart(pizza)}
-                                        className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                                        className="bg-gradient-to-r cursor-pointer from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                                     >
                                         <span>Add to Cart</span>
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -268,7 +277,7 @@ const Dashboard = () => {
                                 Unleash your creativity! Choose from our premium ingredients and build the perfect pizza that matches your unique taste
                             </p>
                             <div className="flex justify-center space-x-4">
-                                <button onClick={() => navigate("/make-customPizza")} className="bg-white text-gray-800 hover:bg-gray-200 font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
+                                <button onClick={() => navigate("/make-customPizza")} className="cursor-pointer bg-white text-gray-800 hover:bg-gray-200 font-bold py-4 px-8 rounded-full text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300">
                                     Build Your Pizza
                                 </button>
                                 <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 font-bold py-4 px-8 rounded-full text-lg shadow-xl transition-all duration-300">
@@ -282,16 +291,16 @@ const Dashboard = () => {
             </div>
 
             {/* Footer */}
-            <footer className="bg-gray-900 text-white py-12 mt-16">
+            <footer className="bg-gray-800 text-white py-12 mt-16">
                 <div className="container mx-auto px-4 text-center">
                     <div className="flex justify-center items-center space-x-2 mb-4">
                         <span className="text-4xl">🍕</span>
-                        <span className="text-3xl font-bold">Mario's Pizzeria</span>
+                        <span className="text-4xl font-bold">Pizzeria</span>
                     </div>
                     <p className="text-gray-400 mb-6">Serving authentic Italian pizzas since 1995</p>
                     <div className="flex justify-center space-x-6">
                         <span className="text-gray-400">📞 +1 234 567 890</span>
-                        <span className="text-gray-400">📧 hello@mariospizzeria.com</span>
+                        <span className="text-gray-400">📧 hello@pizzeria.com</span>
                         <span className="text-gray-400">📍 123 Pizza Street, Food City</span>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import AddPizzaModal from '../components/addPizzaModel';
 import EditPizzaModal from '../components/EditPizzaModel';
+import { useNavigate } from 'react-router-dom';
 
 
 const PizzaManagement = () => {
@@ -11,6 +12,7 @@ const PizzaManagement = () => {
   const [showEditModal, setShowEditModal] = useState(false); // For edit modal
   const [editingPizza, setEditingPizza] = useState(null); // Pizza being edited
 
+  const navigate = useNavigate()
   useEffect(() => {
     fetchPizzas();
   }, []);
@@ -69,8 +71,12 @@ const PizzaManagement = () => {
         onSave={handleRefresh}
       />
 
-      <div className="min-h-screen bg-gray-50 p-6">
-        <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white p-6">
+        <span onClick={() => navigate("/admin/dashboard")}
+                    className='mr-6 px-4 py-2 rounded-md bg-gray-300 cursor-pointer '>
+                    Dashboard
+                </span>
+        <div className="bg-white rounded-lg shadow-sm p-8 my-8">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-4xl font-bold text-gray-800 mb-2">Pizza Management</h1>
@@ -78,9 +84,9 @@ const PizzaManagement = () => {
             </div>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2"
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer duration-200 flex items-center gap-2"
             >
-              <span className="text-lg">+</span> Add Pizza
+              <span className="text-lg ">+</span> Add Pizza
             </button>
           </div>
         </div>
@@ -100,13 +106,13 @@ const PizzaManagement = () => {
                 <div className="flex gap-3">
                   <button
                     onClick={() => handleEdit(pizza)}
-                    className="flex-1 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                    className="flex-1 bg-blue-500 text-white py-2 px-4 cursor-pointer rounded hover:bg-blue-600"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(pizza._id)}
-                    className="flex-1 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                    className="flex-1 bg-red-500 text-white py-2 px-4 cursor-pointer rounded hover:bg-red-600"
                   >
                     Delete
                   </button>
