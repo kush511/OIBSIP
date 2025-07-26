@@ -53,7 +53,7 @@ const navigate = useNavigate()
         
 <div className='flex justify-center items-center'>
         <div className='flex px-5 text-white bg-blue-400 hover:bg-blue-500 justify-center items-center h-11 rounded-md font-medium'>
-          <a href="http://localhost:5173/dashboard"  target="_blank" >View Site ↗</a>
+          <a onClick={()=>navigate("/")} target="_blank" > View Site ↗</a>
         </div>
   
           <div className='my-5 mx-5 bg-red-500 px-5 py-2 rounded-md hover:bg-red-600 text-xl font-semibold text-gray-100 '>
