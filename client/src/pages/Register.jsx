@@ -11,7 +11,7 @@ function Register() {
     const [error, setError] = useState(''); // ADD: Error state for better UX
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -35,10 +35,10 @@ function Register() {
         }
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, { 
-                email, 
-                password, 
-                username 
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/register`, {
+                email,
+                password,
+                username
             });
             console.log('Register Success:', response.data);
 
@@ -66,7 +66,7 @@ function Register() {
 
                 <div className='text-center mb-8'>
                     <div className='text-5xl mb-2 animate-bounce'>🍕</div>
-                    <h1 className='text-4xl font-bold text-orange-500 mb-2'>Mario's Pizzeria</h1>
+                    <h1 className='text-4xl font-bold text-orange-500 mb-2'> Pizzeria </h1>
                     <p className='text-lg text-gray-600'>Welcome! Sign up to order delicious pizza</p>
                 </div>
 
