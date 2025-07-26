@@ -57,7 +57,7 @@ function Login() {
 
                 <div className='text-center mb-8'>
                     <div className='text-5xl mb-2 animate-bounce'>🍕</div>
-                    <h1 className='text-4xl font-bold text-orange-500 mb-2'>Mario's Pizzeria</h1>
+                    <h1 className='text-4xl font-bold text-orange-500 mb-2'> Pizzeria </h1>
                     <p className='text-lg text-gray-600'>Welcome back! Sign in to order delicious pizza</p>
                 </div>
 
